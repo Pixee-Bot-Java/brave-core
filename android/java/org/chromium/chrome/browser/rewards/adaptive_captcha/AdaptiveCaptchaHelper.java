@@ -10,6 +10,7 @@ import com.google.android.play.core.integrity.IntegrityManager;
 import com.google.android.play.core.integrity.IntegrityManagerFactory;
 import com.google.android.play.core.integrity.IntegrityTokenRequest;
 import com.google.android.play.core.integrity.IntegrityTokenResponse;
+import io.github.pixee.security.BoundedLineReader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -268,7 +269,7 @@ public class AdaptiveCaptchaHelper {
                     urlConnection.getInputStream(), StandardCharsets.UTF_8.name()));
             StringBuilder sb = new StringBuilder();
             String line = null;
-            while ((line = br.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                 sb.append(line + "\n");
             }
             responseString = sb.toString();

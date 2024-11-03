@@ -7,6 +7,7 @@ package org.chromium.chrome.browser.shields;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import io.github.pixee.security.BoundedLineReader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -110,7 +111,7 @@ public class BraveShieldsUtils {
                     BufferedReader br = new BufferedReader(new InputStreamReader(
                             urlConnection.getInputStream(), StandardCharsets.UTF_8.toString()));
                     String line = null;
-                    while ((line = br.readLine()) != null) {
+                    while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                         sb.append(line + "\n");
                     }
                     br.close();
