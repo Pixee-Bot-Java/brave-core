@@ -7,6 +7,8 @@ package org.chromium.chrome.browser.shields;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,7 +87,7 @@ public class BraveShieldsUtils {
 
             HttpURLConnection urlConnection = null;
             try {
-                URL url = new URL(BraveConfig.WEBCOMPAT_REPORT_ENDPOINT);
+                URL url = Urls.create(BraveConfig.WEBCOMPAT_REPORT_ENDPOINT, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                 urlConnection = (HttpURLConnection) ChromiumNetworkAdapter.openConnection(
                         url, NetworkTrafficAnnotationTag.MISSING_TRAFFIC_ANNOTATION);
                 urlConnection.setDoOutput(true);
