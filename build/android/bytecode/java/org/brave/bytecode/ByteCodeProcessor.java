@@ -5,6 +5,7 @@
 
 package org.brave.bytecode;
 
+import io.github.pixee.security.ZipSecurity;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -126,8 +127,7 @@ class ByteCodeProcessor {
         String tempJarPath = outputJarPath + TEMPORARY_FILE_SUFFIX;
         ExecutorService executorService =
                 Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        try (ZipInputStream inputStream = new ZipInputStream(
-                     new BufferedInputStream(new FileInputStream(inputJarPath)));
+        try (ZipInputStream inputStream = ZipSecurity.createHardenedInputStream(new BufferedInputStream(new FileInputStream(inputJarPath)));
                 ZipOutputStream tempStream = new ZipOutputStream(
                         new BufferedOutputStream(new FileOutputStream(tempJarPath)))) {
             List<Future<EntryDataPair>> list = new ArrayList<>();
