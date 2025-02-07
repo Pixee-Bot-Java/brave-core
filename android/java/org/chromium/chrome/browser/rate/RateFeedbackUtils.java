@@ -8,6 +8,7 @@ package org.chromium.chrome.browser.rate;
 
 import android.content.Context;
 import android.os.Build;
+import io.github.pixee.security.BoundedLineReader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -110,7 +111,7 @@ public class RateFeedbackUtils {
                 BufferedReader br = new BufferedReader(new InputStreamReader(
                         urlConnection.getInputStream(), StandardCharsets.UTF_8.name()));
                 String line = null;
-                while ((line = br.readLine()) != null) {
+                while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                     sb.append(line + "\n");
                 }
                 br.close();

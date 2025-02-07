@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
 import androidx.annotation.Nullable;
+import io.github.pixee.security.BoundedLineReader;
 
 import org.chromium.base.supplier.Supplier;
 
@@ -47,7 +48,7 @@ public abstract class BraveCommandLineInitUtil {
         File variationsServerFile = new File(TEST_VARIATIONS_SERVER_URL_FILE);
         if (variationsServerFile.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(variationsServerFile))) {
-                String testVariationsServerUrl = reader.readLine();
+                String testVariationsServerUrl = BoundedLineReader.readLine(reader, 5_000_000);
                 if (testVariationsServerUrl != null && !testVariationsServerUrl.isEmpty()) {
                     Log.w(TAG,
                             "New test variations server url applied: " + testVariationsServerUrl);
