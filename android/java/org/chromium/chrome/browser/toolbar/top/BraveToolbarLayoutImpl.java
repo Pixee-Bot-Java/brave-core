@@ -5,6 +5,8 @@
 
 package org.chromium.chrome.browser.toolbar.top;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.chromium.ui.base.ViewUtils.dpToPx;
 
 import android.animation.Animator;
@@ -1053,8 +1055,8 @@ public abstract class BraveToolbarLayoutImpl extends ToolbarLayout
             @Override
             protected Void doInBackground() {
                 try {
-                    URL urlObject = new URL(url);
-                    URL siteObject = new URL(statSite);
+                    URL urlObject = Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
+                    URL siteObject = Urls.create(statSite, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                     BraveStatsTable braveStatsTable = new BraveStatsTable(url, urlObject.getHost(),
                             statType, statSite, siteObject.getHost(),
                             BraveStatsUtil.getCalculatedDate("yyyy-MM-dd", 0));
@@ -1196,7 +1198,7 @@ public abstract class BraveToolbarLayoutImpl extends ToolbarLayout
             return;
         }
         try {
-            URL url = new URL(currentTab.getUrl().getSpec());
+            URL url = Urls.create(currentTab.getUrl().getSpec(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             // Don't show shields popup if protocol is not valid for shields.
             if (!isValidProtocolForShields(url.getProtocol())) {
                 return;
