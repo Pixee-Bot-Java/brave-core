@@ -17,6 +17,7 @@ import android.util.Pair;
 import androidx.fragment.app.FragmentActivity;
 
 import com.wireguard.config.Config;
+import java.security.SecureRandom;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -174,9 +175,9 @@ public class BraveVpnUtils {
 
             JSONObject hostname;
             if (hosts.size() < 2) {
-                hostname = hostnames.getJSONObject(new Random().nextInt(hostnames.length()));
+                hostname = hostnames.getJSONObject(new SecureRandom().nextInt(hostnames.length()));
             } else {
-                hostname = hosts.get(new Random().nextInt(hosts.size()));
+                hostname = hosts.get(new SecureRandom().nextInt(hosts.size()));
             }
             return new Pair<>(hostname.getString("hostname"), hostname.getString("display-name"));
         } catch (JSONException e) {
