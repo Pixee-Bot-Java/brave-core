@@ -24,6 +24,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+import io.github.pixee.security.BoundedLineReader;
 
 import org.chromium.base.Log;
 import org.chromium.brave_wallet.mojom.AccountInfo;
@@ -188,7 +189,7 @@ public class AddAccountActivity extends BraveWalletBaseActivity {
                         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
                         StringBuilder sb = new StringBuilder();
                         String line;
-                        while ((line = br.readLine()) != null) {
+                        while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                             sb.append(line).append("\n");
                         }
                         String content = sb.toString();
