@@ -5,6 +5,8 @@
 
 package org.chromium.chrome.browser.settings;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.chromium.chrome.browser.crypto_wallet.util.WalletConstants.ADD_NETWORK_FRAGMENT_ARG_ACTIVE_NETWORK;
 import static org.chromium.chrome.browser.crypto_wallet.util.WalletConstants.ADD_NETWORK_FRAGMENT_ARG_CHAIN_ID;
 
@@ -264,7 +266,7 @@ public class BraveWalletAddNetworksFragment extends Fragment implements Connecti
 
         String strRpcUrls = mRpcUrls.getText().toString().trim();
         try {
-            URL url = new URL(strRpcUrls);
+            URL url = Urls.create(strRpcUrls, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             if (!isProtocolSupported(url)) {
                 mRpcUrls.setError(getString(R.string.brave_wallet_add_network_urls_error));
                 error = true;
@@ -282,7 +284,7 @@ public class BraveWalletAddNetworksFragment extends Fragment implements Connecti
         String strIconUrls = mIconUrls.getText().toString().trim();
         if (!strIconUrls.isEmpty()) {
             try {
-                URL url = new URL(strIconUrls);
+                URL url = Urls.create(strIconUrls, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                 if (!isProtocolSupported(url)) {
                     mIconUrls.setError(getString(R.string.brave_wallet_add_network_urls_error));
                     error = true;
@@ -300,7 +302,7 @@ public class BraveWalletAddNetworksFragment extends Fragment implements Connecti
         String strBlockExplorerUrls = mBlockExplorerUrls.getText().toString().trim();
         if (!strBlockExplorerUrls.isEmpty()) {
             try {
-                URL url = new URL(strBlockExplorerUrls);
+                URL url = Urls.create(strBlockExplorerUrls, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                 if (!isProtocolSupported(url)) {
                     mBlockExplorerUrls.setError(
                             getString(R.string.brave_wallet_add_network_urls_error));

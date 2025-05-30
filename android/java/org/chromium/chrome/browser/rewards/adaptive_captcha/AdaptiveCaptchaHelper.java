@@ -10,6 +10,8 @@ import com.google.android.play.core.integrity.IntegrityManager;
 import com.google.android.play.core.integrity.IntegrityManagerFactory;
 import com.google.android.play.core.integrity.IntegrityTokenRequest;
 import com.google.android.play.core.integrity.IntegrityTokenResponse;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,7 +65,7 @@ public class AdaptiveCaptchaHelper {
                                     + "}");
             String logMessage = "";
             try {
-                URL url = new URL(startAttestationUrl);
+                URL url = Urls.create(startAttestationUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                 urlConnection = getUrlConnection(POST_METHOD, url, annotation);
 
                 writeRequestOutput(getStartAttestationBody(paymentId), urlConnection);
@@ -130,7 +132,7 @@ public class AdaptiveCaptchaHelper {
                                         + " policy_exception_justification: 'Not implemented.'}");
                     String logMessage = "";
                     try {
-                        URL url = new URL(attestPaymentIdUrl);
+                        URL url = Urls.create(attestPaymentIdUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                         urlConnection = getUrlConnection(PUT_METHOD, url, annotation);
 
                         writeRequestOutput(
@@ -183,7 +185,7 @@ public class AdaptiveCaptchaHelper {
 
                     String logMessage = "";
                     try {
-                        URL url = new URL(String.format(solveCaptchaUrl, paymentId, captchaId));
+                        URL url = Urls.create(String.format(solveCaptchaUrl, paymentId, captchaId), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                         urlConnection = getUrlConnection(POST_METHOD, url, annotation);
                         urlConnection.connect();
 
