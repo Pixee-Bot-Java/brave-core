@@ -5,6 +5,7 @@
 
 package org.chromium.chrome.browser.ntp_background_images.util;
 
+import java.security.SecureRandom;
 import org.chromium.chrome.R;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +48,7 @@ public class SponsoredImageUtil {
     }
 
     private static int getRandomIndex(int count) {
-    	Random rand = new Random();
+    	Random rand = new SecureRandom();
     	return rand.nextInt(count);
     }
 
